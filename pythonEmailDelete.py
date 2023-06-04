@@ -42,7 +42,7 @@ def close_connection(imap):
     # logout from the server
     imap.logout()
 
-def main(username, password):
+def main(username, password, method):
     # create an IMAP4 class with SSL
     imap = imaplib.IMAP4_SSL("imap.gmail.com")
     # authenticate
@@ -54,16 +54,45 @@ def main(username, password):
     imap.select('"[Gmail]/All Mail"')
     status, data = imap.search(None, 'ALL')
 
-    with open("emailDeleteList.txt") as file_in:
-        emails = file_in.readlines()
+    if(method == "delete"):
+        with open("emailDeleteList.txt") as file_in:
+            emails = file_in.readlines()
 
-    line_dict = search_emails(emails, imap)
+        line_dict = search_emails(emails, imap)
 
-    for emailAddress, count in line_dict.items():
-        if count < 1:
-            print(f"No Emails for {emailAddress}")
-        else:
-            delete_emails(emailAddress, imap, line_dict)
+        for emailAddress, count in line_dict.items():
+            if count < 1:
+                print(f"No Emails for {emailAddress}")
+            else:
+                delete_emails(emailAddress, imap, line_dict)
+
+    if method == "scan":
+        email_addresses = set()  # Use a set to store unique email addresses
+        for num in data[0].split():
+            # Fetch the email message
+            status, msg_data = imap.fetch(num, '(RFC822)')
+            if status == 'OK':
+                raw_email = msg_data[0][1]
+                try:
+                    # Decode the raw email data using 'utf-8' encoding
+                    raw_email_string = raw_email.decode('utf-8')
+                except UnicodeDecodeError:
+                    # If 'utf-8' decoding fails, try a different encoding
+                    raw_email_string = raw_email.decode('latin-1')
+
+                # Parse the raw email string
+                msg = email.message_from_string(raw_email_string)
+                # Extract the email address of the sender
+                sender_email = msg['From']
+                print(f"found email from {sender_email}")
+                # Use regular expressions to extract the email address from the sender field
+                matches = re.findall(r'[\w\.-]+@[\w\.-]+', sender_email)
+                if matches:
+                    email_addresses.add(matches[0])
+        
+        with open('email_addresses.txt', 'w') as file:
+            file.write('\n'.join(email_addresses))
+
 
     close_connection(imap)
 
@@ -75,4 +104,5 @@ if __name__ == "__main__":
     else:
         username = sys.argv[1]
         password = sys.argv[2]
-        main(username, password)
+        method = sys.argv[3]
+        main(username, password, method)
