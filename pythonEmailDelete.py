@@ -186,8 +186,6 @@ def scan_emails(imap):
                     email_counts[sender_email] += 1
                 else:
                     email_counts[sender_email] = 1
-        if index == 200:
-            break
 
     # Export email addresses and counts as JSON
     with open('email_counts.json', 'w') as file:
