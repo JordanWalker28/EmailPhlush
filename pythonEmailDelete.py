@@ -4,6 +4,8 @@ import email
 import re
 from email.header import decode_header
 import json
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
 
 def search_emails(emails, imap):
     line_dict = {}
@@ -149,51 +151,68 @@ def search_and_delete_emails(emails, imap):
         else:
             delete_emails(emailAddress, imap, line_dict)
 
-def scan_emails(imap):
-    email_counts = {}  # Dictionary to store email addresses and their counts
-
-    # List all the mailbox categories
-    status, mailbox_list = imap.list()
-    if status == 'OK':
-        print("Mailbox Categories:")
-        for mailbox in mailbox_list:
-            mailbox_name = mailbox.decode().split(' "/" ')[-1]  # Extract the category name
-            print(mailbox_name)
-
-    # List special folders like "Promotions" and "Updates"
-    status, special_folders = imap.list(pattern='*')
-    if status == 'OK':
-        print("Special Folders:")
-        for folder in special_folders:
-            folder_name = folder.decode().split(' "/" ')[-1]  # Extract the folder name
-            print(folder_name)
-
-    status, data = imap.search(None, 'ALL')
-    total_emails = len(data[0].split())  # Total number of emails found
-    print(f"Total emails found: {total_emails}")
-
-    processed_emails = 0
-
-    for index, num in enumerate(data[0].split(), start=1):
-        raw_email_string = fetch_raw_email(imap, num)
+def process_email(imap, email_counts, num, lock, processed_emails, total_emails):
+    try:
+        with lock:
+            raw_email_string = fetch_raw_email(imap, num)
         if raw_email_string:
             sender_email = extract_sender_email(raw_email_string)
             if sender_email:
-                processed_emails += 1
-                percentage = (processed_emails / total_emails) * 100
-                print(f"Processing email {index}/{total_emails} ({percentage:.2f}% complete)")
-                if sender_email in email_counts:
-                    email_counts[sender_email] += 1
-                else:
-                    email_counts[sender_email] = 1
+                with lock:
+                    if sender_email in email_counts:
+                        email_counts[sender_email] += 1
+                    else:
+                        email_counts[sender_email] = 1
+                    processed_emails[0] += 1
+                    percentage = (processed_emails[0] / total_emails) * 100
+                    print(f"Processing email {processed_emails[0]}/{total_emails} ({percentage:.2f}% complete)")
+    except Exception as e:
+        print(f"An error occurred while processing email {num.decode()}: {e}")
+        with lock:
+            response = getattr(imap, 'response', None)
+        if response:
+            print(f"Server response: {response}")
 
-    # Export email addresses and counts as JSON
-    with open('email_counts.json', 'w') as file:
-        json.dump(email_counts, file)
+def scan_emails(imap):
+    email_counts = {}  # Dictionary to store email addresses and their counts
+    lock = Lock()  # Lock to synchronize access to email_counts and IMAP object
+
+    try:
+        status, data = imap.search(None, 'ALL')
+        email_numbers = data[0].split()  # Limit to the first 100 emails
+        total_emails = len(email_numbers)  # Total number of emails to process
+        print(f"Total emails to process: {total_emails}")
+
+        processed_emails = [0]  # Counter for processed emails
+
+        with ThreadPoolExecutor() as executor:
+            futures = []
+            for num in email_numbers:
+                future = executor.submit(process_email, imap, email_counts, num, lock, processed_emails, total_emails)
+                future.num = num  # Attach email number to future object
+                futures.append(future)
+
+            for future in as_completed(futures):
+                num = future.num  # Retrieve email number from future object
+                try:
+                    future.result()
+                except Exception as e:
+                    print(f"An error occurred while processing email {num.decode()}: {e}")
+                    with lock:
+                        response = getattr(imap, 'response', None)
+                    if response:
+                        print(f"Server response: {response}")
+
+        # Export email addresses and counts as JSON
+        with open('email_counts.json', 'w') as file:
+            json.dump(email_counts, file)
+
+    except Exception as e:
+        print(f"An error occurred while scanning emails: {e}")
 
 def main(username, password, method):
     # create an IMAP4 class with SSL
-    imap = imaplib.IMAP4_SSL("imap.gmail.com")
+    imap = imaplib.IMAP4_SSL("imap.gmail.com", port=993)
     # authenticate
     imap.login(username, password)
     print(username)
