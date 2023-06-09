@@ -5,10 +5,15 @@ import TableComponent from './TableComponent';
 
 function App() {
   const [numItems, setNumItems] = useState(10); // Number of items to display
+  const [graphType, setGraphType] = useState("bar"); // Number of items to display
   const dataJson = require('./email_counts.json');
 
   const handleNumItemsChange = (event) => {
     setNumItems(parseInt(event.target.value, 10));
+  };
+
+  const handlegraphTypeChange = (event) => {
+    setGraphType(event.target.value);
   };
 
   return (
@@ -21,11 +26,18 @@ function App() {
           <option value="30">30</option>
           {/* Add more options as needed */}
         </select>
+        <select id="numItems" value={graphType} onChange={handlegraphTypeChange}>
+          <option value="bar">Bar</option>
+          <option value="pie">Pie</option>
+          {/* Add more options as needed */}
+        </select>
       </div>
       <DataSortingComponent dataJson={dataJson} numItems={numItems}>
         {(sortedData) => (
           <>
-            <GraphComponent data={sortedData} />
+          <div style={{ width: '100%', height: 'calc(50% - 2rem)' }}>
+            <GraphComponent data={sortedData} graphType={graphType}/>
+            </div>
             <div style={{ width: '100%', height: 'calc(50% - 2rem)' }}>
               <TableComponent data={sortedData} />
             </div>
