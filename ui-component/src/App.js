@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App" style={{ width: '100%', height: '100vh' }}>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1rem' }}>
-        <label htmlFor="numItems">Show Top:</label>
+      <label htmlFor="numItems" style={{ marginRight: '0.5rem' }}>Show Top:</label>
         <select id="numItems" value={numItems} onChange={handleNumItemsChange}>
           <option value="10">10</option>
           <option value="20">20</option>
@@ -35,8 +35,8 @@ function App() {
       <DataSortingComponent dataJson={dataJson} numItems={numItems}>
         {(sortedData) => (
           <>
-          <div style={{ width: '100%', height: 'calc(50% - 2rem)' }}>
-            <GraphComponent data={sortedData} graphType={graphType}/>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1rem', height: 'calc(90% - 2rem)' }}>
+              <GraphComponent data={sortedData} graphType={graphType}/>
             </div>
             <div style={{ width: '100%', height: 'calc(50% - 2rem)' }}>
               <TableComponent data={sortedData} />
