@@ -1,24 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import Chart from './Chart';
-import Table from './Table';
-import dataJson from './email_counts.json';
+import React, { useState } from 'react';
+import DataSortingComponent from './DataSortingComponent';
+import GraphComponent from './GraphComponent';
+import TableComponent from './TableComponent';
 
 function App() {
-  const [numItems, setNumItems] = useState(10);
-  const [labels, setLabels] = useState([]);
-  const [counts, setCounts] = useState([]);
-
-  useEffect(() => {
-    const dataB = Object.entries(dataJson);
-    const sortedDataB = [...dataB].sort((a, b) => b[1] - a[1]);
-    const selectedDataB = sortedDataB.slice(0, numItems);
-
-    const selectedLabels = selectedDataB.map(([label, count]) => label);
-    const selectedCounts = selectedDataB.map(([label, count]) => count);
-
-    setLabels(selectedLabels);
-    setCounts(selectedCounts);
-  }, [dataJson, numItems]);
+  const [numItems, setNumItems] = useState(10); // Number of items to display
+  const dataJson = require('./email_counts.json');
 
   const handleNumItemsChange = (event) => {
     setNumItems(parseInt(event.target.value, 10));
@@ -35,12 +22,16 @@ function App() {
           {/* Add more options as needed */}
         </select>
       </div>
-      <div style={{ width: '100%', height: 'calc(100% - 2rem)' }}>
-        <Chart labels={labels} counts={counts} />
-      </div>
-      <div style={{ width: '100%', marginTop: '2rem' }}>
-        <Table labels={labels} counts={counts} />
-      </div>
+      <DataSortingComponent dataJson={dataJson} numItems={numItems}>
+        {(sortedData) => (
+          <>
+            <GraphComponent data={sortedData} />
+            <div style={{ width: '100%', height: 'calc(50% - 2rem)' }}>
+              <TableComponent data={sortedData} />
+            </div>
+          </>
+        )}
+      </DataSortingComponent>
     </div>
   );
 }
