@@ -96,7 +96,7 @@ def search_emails(emails, imap):
 
     return line_dict
 
-def delete_emails(emailAddress, imap, line_dict):
+def delete_emails(emailAddress, imap, line_dict, permanently_delete):
     print(f"Deleting {line_dict[emailAddress]} Emails for {emailAddress}")
     provider = emailAddress.strip()
     count = 1
@@ -105,14 +105,20 @@ def delete_emails(emailAddress, imap, line_dict):
     messageCount = len(messages)
 
     for mail in messages:
-        # mark the mail as deleted
-        imap.store(mail, '+X-GM-LABELS', '\\Trash')
+        if permanently_delete:
+            # permanently delete the email
+            imap.store(mail, '+FLAGS', '\\Deleted')
+        else:
+            # move the email to the trash folder
+            imap.store(mail, '+X-GM-LABELS', '\\Trash')
         percentage = float("{0:.1f}".format(count / messageCount * 100))
         print(f"{count} email(s) out of {messageCount} deleted, {percentage}%")
         count += 1
+
     print("All selected mails have been deleted")
-    # delete all the selected messages
-    imap.expunge()
+    if permanently_delete:
+        # permanently remove the deleted messages
+        imap.expunge()
 
 def close_connection(imap):
     # close the mailbox
@@ -142,14 +148,14 @@ def extract_sender_email(raw_email_string):
         return matches[0]
     return None
 
-def search_and_delete_emails(emails, imap):
+def search_and_delete_emails(emails, imap, permDelete=False):
     line_dict = search_emails(emails, imap)
 
     for emailAddress, count in line_dict.items():
         if count < 1:
             print(f"No Emails for {emailAddress}")
         else:
-            delete_emails(emailAddress, imap, line_dict)
+            delete_emails(emailAddress, imap, line_dict, permDelete)
 
 def process_email(imap, email_counts, num, lock, processed_emails, total_emails):
     try:
@@ -210,7 +216,7 @@ def scan_emails(imap):
     except Exception as e:
         print(f"An error occurred while scanning emails: {e}")
 
-def main(username, password, method):
+def main(username, password, method, permDelete=False):
     # create an IMAP4 class with SSL
     imap = imaplib.IMAP4_SSL("imap.gmail.com", port=993)
     # authenticate
@@ -224,7 +230,7 @@ def main(username, password, method):
     if method == "delete":
         with open("emailDeleteList.txt") as file_in:
             emails = file_in.readlines()
-        search_and_delete_emails(emails, imap)
+        search_and_delete_emails(emails, imap, permDelete)
 
     if method == "scan":
         scan_emails(imap)
@@ -234,10 +240,11 @@ def main(username, password, method):
     print("End")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Please provide both username and password as command-line arguments.")
+    if len(sys.argv) < 4:
+        print("Please provide both username and password as command-line arguments also a method.")
     else:
         username = sys.argv[1]
         password = sys.argv[2]
         method = sys.argv[3]
-        main(username, password, method)
+        permDelete = sys.argv[4] if len(sys.argv) > 4 else None
+        main(username, password, method, permDelete)
