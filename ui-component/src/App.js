@@ -2,36 +2,21 @@ import React, { useState } from 'react';
 import DataSortingComponent from './DataSortingComponent';
 import GraphComponent from './GraphComponent';
 import TableComponent from './TableComponent';
+import DropdownList from './DropdownList'; // New component
 
 function App() {
   const [numItems, setNumItems] = useState(10); // Number of items to display
-  const [graphType, setGraphType] = useState("bar"); // Number of items to display
+  const [graphType, setGraphType] = useState('bar'); // Number of items to display
   const dataJson = require('./email_counts.json');
-
-  const handleNumItemsChange = (event) => {
-    setNumItems(parseInt(event.target.value, 10));
-  };
-
-  const handlegraphTypeChange = (event) => {
-    setGraphType(event.target.value);
-  };
 
   return (
     <div className="App" style={{ width: '100%', height: '100vh' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1rem' }}>
-      <label htmlFor="numItems" style={{ marginRight: '0.5rem' }}>Show Top:</label>
-        <select id="numItems" value={numItems} onChange={handleNumItemsChange}>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="30">30</option>
-          {/* Add more options as needed */}
-        </select>
-        <select id="numItems" value={graphType} onChange={handlegraphTypeChange}>
-          <option value="bar">Bar</option>
-          <option value="pie">Pie</option>
-          {/* Add more options as needed */}
-        </select>
-      </div>
+        <DropdownList
+          numItems={numItems}
+          graphType={graphType}
+          setNumItems={setNumItems}
+          setGraphType={setGraphType}
+        />
       <DataSortingComponent dataJson={dataJson} numItems={numItems}>
         {(sortedData) => (
           <>

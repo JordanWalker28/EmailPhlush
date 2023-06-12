@@ -5,16 +5,25 @@ import {
     LinearScale,
     Tooltip,
     Legend,
-    ArcElement
+    ArcElement,
+    RadialLinearScale,
   } from 'chart.js';
-  import React, { useState, useEffect } from 'react';
-  import { Bar, Doughnut, Pie } from 'react-chartjs-2';
+  import React from 'react';
+  import { Bar, Doughnut, Pie, PolarArea } from 'react-chartjs-2';
   
-  ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, ArcElement);
+  ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, ArcElement,RadialLinearScale);
   
   function GraphComponent({ data, graphType }) {
-    const ChartComponent = graphType === 'bar' ? Bar : Pie;
-  
+    let ChartComponent;
+    if (graphType === 'bar') {
+      ChartComponent = Bar;
+    } else if (graphType === 'pie') {
+      ChartComponent = Pie;
+    } else if (graphType === 'doughnut') {
+      ChartComponent = Doughnut;
+    } else if (graphType === 'polar') {
+      ChartComponent = PolarArea;
+    }  
     return (
       <ChartComponent
         style={{ height: '100px', width: '50%', marginTop: '2rem', position: 'center' }}
