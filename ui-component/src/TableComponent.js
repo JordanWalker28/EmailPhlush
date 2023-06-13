@@ -1,24 +1,24 @@
 import React from 'react';
 
-function TableComponent({ data }) {
+const TableComponent = ({ data }) => {
   return (
     <table style={{ width: '80%', marginTop: '2rem', textAlign: 'center' }}>
       <thead>
         <tr>
-          <th style={{ textAlign: 'center' }}>Label</th>
-          <th style={{ textAlign: 'center' }}>Count</th>
+          <th>Label</th>
+          <th>Count</th>
         </tr>
       </thead>
       <tbody>
         {data.map(([label, count]) => (
           <tr key={label}>
-            <td style={{ textAlign: 'center' }}>{label}</td>
-            <td style={{ textAlign: 'center' }}>{count}</td>
+            <td>{label}</td>
+            <td>{count}</td>
           </tr>
         ))}
       </tbody>
     </table>
   );
-}
+};
 
 export default TableComponent;

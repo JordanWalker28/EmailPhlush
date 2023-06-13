@@ -3,7 +3,8 @@ import SelectDropdown from './SelectDropdown';
 
 const DropdownList = ({ numItems, graphType, setNumItems, setGraphType }) => {
   const handleNumItemsChange = (event) => {
-    setNumItems(parseInt(event.target.value, 10));
+    const value = event.target.value;
+    setNumItems(value === '*' ? Infinity : parseInt(value, 10));
   };
 
   const handleGraphTypeChange = (event) => {
@@ -12,12 +13,12 @@ const DropdownList = ({ numItems, graphType, setNumItems, setGraphType }) => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1rem' }}>
-    <SelectDropdown
+      <SelectDropdown
         label="Show Top:"
         id="numItems"
-        value={numItems}
+        value={numItems === Infinity ? '*' : numItems.toString()}
         onChange={handleNumItemsChange}
-        options={['10', '20', '30']} // Add more options as needed
+        options={['10', '20', '30', '*']} // Add more options as needed
       />
       <SelectDropdown
         label="Graph Type:"
