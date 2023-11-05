@@ -23,81 +23,6 @@ def search_emails(emails, imap):
 
     return line_dict
 
-def delete_emails(emailAddress, imap, line_dict):
-    print(f"Deleting {line_dict[emailAddress]} Emails for {emailAddress}")
-    provider = emailAddress.strip()
-    count = 1
-    messages = imap.search(None, f'FROM "{provider}"')
-    messages = messages[0].split()
-    messageCount = len(messages)
-
-    for mail in messages:
-        # mark the mail as deleted
-        imap.store(mail, '+X-GM-LABELS', '\\Trash')
-        percentage = float("{0:.1f}".format(count / messageCount * 100))
-        print(f"{count} email(s) out of {messageCount} deleted, {percentage}%")
-        count += 1
-    print("All selected mails have been deleted")
-    # delete all the selected messages
-    imap.expunge()
-
-def close_connection(imap):
-    # close the mailbox
-    imap.close()
-    # logout from the server
-    imap.logout()
-
-def fetch_raw_email(imap, num):
-    status, msg_data = imap.fetch(num, '(RFC822)')
-    if status == 'OK':
-        raw_email = msg_data[0][1]
-        try:
-            # Decode the raw email data using 'utf-8' encoding
-            raw_email_string = raw_email.decode('utf-8')
-        except UnicodeDecodeError:
-            # If 'utf-8' decoding fails, try a different encoding
-            raw_email_string = raw_email.decode('latin-1')
-        return raw_email_string
-    return None
-
-def extract_sender_email(raw_email_string):
-    msg = email.message_from_string(raw_email_string)
-    sender_email = msg['From']
-    # Use regular expressions to extract the email address from the sender field
-    matches = re.findall(r'[\w\.-]+@[\w\.-]+', sender_email)
-    if matches:
-        return matches[0]
-    return None
-
-def search_and_delete_emails(emails, imap):
-    line_dict = search_emails(emails, imap)
-
-    for emailAddress, count in line_dict.items():
-        if count < 1:
-            print(f"No Emails for {emailAddress}")
-        else:
-            delete_emails(emailAddress, imap, line_dict)
-
-import sys
-import imaplib
-import email
-import re
-from email.header import decode_header
-
-def search_emails(emails, imap):
-    line_dict = {}
-
-    for emailAddress in emails:
-        emailRec = emailAddress.strip()
-        print(f"searching for {emailRec}")
-        messages = imap.search(None, f'FROM "{emailRec}"')
-
-        # convert messages to a list of email IDs
-        messages = messages[0].split()
-        line_dict[emailAddress] = len(messages)
-
-    return line_dict
-
 def delete_emails(emailAddress, imap, line_dict, permanently_delete):
     print(f"Deleting {line_dict[emailAddress]} Emails for {emailAddress}")
     provider = emailAddress.strip()
@@ -186,8 +111,11 @@ def scan_emails(imap):
     lock = Lock()  # Lock to synchronize access to email_counts and IMAP object
 
     try:
-        data = imap.search(None, 'ALL')
-        email_numbers = data[0].split()  # Limit to the first 100 emails
+        imap.select("inbox")
+
+        # Searching for all emails
+        result, data = imap.search(None, "ALL")
+        email_numbers = data[0].split()[:100]  # Limit to the first 100 emails
         total_emails = len(email_numbers)  # Total number of emails to process
         print(f"Total emails to process: {total_emails}")
 
@@ -195,6 +123,7 @@ def scan_emails(imap):
 
         with ThreadPoolExecutor() as executor:
             futures = []
+
             for num in email_numbers:
                 future = executor.submit(process_email, imap, email_counts, num, lock, processed_emails, total_emails)
                 future.num = num  # Attach email number to future object
@@ -205,7 +134,7 @@ def scan_emails(imap):
                 try:
                     future.result()
                 except Exception as e:
-                    print(f"An error occurred while processing email {num.decode()}: {e}")
+                    print(f"An error occurred while processing email {num}: {e}")
                     with lock:
                         response = getattr(imap, 'response', None)
                     if response:
