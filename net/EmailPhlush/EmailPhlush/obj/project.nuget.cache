@@ -1,14 +1,25 @@
 {
   "version": 2,
-  "dgSpecHash": "I0blbDMIEnMFKYLuu9QPk7bl0UWhInY+LxtbHQfla7Qa7xG0TW+SAx0JWjOSs3t4g+h/ers+pJKSr4WyMJg6Xw==",
+  "dgSpecHash": "daR+TEqFE3P8c5tequCMuODsNEYZmie0dUUojKi6zSAmNwPxINAk+KXFn1qj6XXGq5szWgQ0QxA9Ws+dgEayIw==",
   "success": true,
   "projectFilePath": "/Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/EmailPhlush.csproj",
   "expectedPackageFiles": [
     "/Users/jordanswalker/.nuget/packages/bouncycastle.cryptography/2.4.0/bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/mailkit/4.8.0/mailkit.4.8.0.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.configuration/9.0.0-rc.2.24473.5/microsoft.extensions.configuration.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.configuration.abstractions/9.0.0-rc.2.24473.5/microsoft.extensions.configuration.abstractions.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.configuration.fileextensions/9.0.0-rc.2.24473.5/microsoft.extensions.configuration.fileextensions.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.configuration.json/9.0.0-rc.2.24473.5/microsoft.extensions.configuration.json.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.fileproviders.abstractions/9.0.0-rc.2.24473.5/microsoft.extensions.fileproviders.abstractions.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.fileproviders.physical/9.0.0-rc.2.24473.5/microsoft.extensions.fileproviders.physical.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.filesystemglobbing/9.0.0-rc.2.24473.5/microsoft.extensions.filesystemglobbing.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.primitives/9.0.0-rc.2.24473.5/microsoft.extensions.primitives.9.0.0-rc.2.24473.5.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/mimekit/4.8.0/mimekit.4.8.0.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/system.formats.asn1/8.0.1/system.formats.asn1.8.0.1.nupkg.sha512",
-    "/Users/jordanswalker/.nuget/packages/system.security.cryptography.pkcs/8.0.0/system.security.cryptography.pkcs.8.0.0.nupkg.sha512"
+    "/Users/jordanswalker/.nuget/packages/system.io.pipelines/9.0.0-rc.2.24473.5/system.io.pipelines.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/system.security.cryptography.pkcs/8.0.0/system.security.cryptography.pkcs.8.0.0.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/system.text.encodings.web/9.0.0-rc.2.24473.5/system.text.encodings.web.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/system.text.json/9.0.0-rc.2.24473.5/system.text.json.9.0.0-rc.2.24473.5.nupkg.sha512"
   ],
   "logs": []
 }
