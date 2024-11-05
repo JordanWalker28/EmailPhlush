@@ -8,7 +8,7 @@ namespace EmailPhlush
         {
             if (args.Length != 3)
             {
-                Console.WriteLine("The application requires exactly 3 arguments: emai, password and method.");
+                Console.WriteLine("The application requires exactly 3 arguments: email, password, and method.");
                 return;
             }
 
@@ -16,32 +16,8 @@ namespace EmailPhlush
             string password = args[1];
             string method = args[2];
 
-            var emailService = new EmailService(AppConfig.ImapServer, AppConfig.Port);
-
-            try
-            {
-                emailService.ConnectAndAuthenticate(email, password);
-
-                if (method.Equals(JobType.Scan.ToString(), StringComparison.OrdinalIgnoreCase))
-                {
-                    emailService.ScanEmails(new DateTime(2024,11,3), new DateTime(2024,11,5));
-                }else if (method.Equals(JobType.Delete.ToString(), StringComparison.OrdinalIgnoreCase))
-                {
-                    emailService.DeleteEmailsFromSender(AppConfig.SenderEmail);
-                }
-                else
-                {
-                    Console.WriteLine($"Job Type Not Recognised");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }
-            finally
-            {
-                emailService.Disconnect();
-            }
+            var emailJobProcessor = new EmailPhlush(email, password, method);
+            emailJobProcessor.Execute();
         }
     }
 }
