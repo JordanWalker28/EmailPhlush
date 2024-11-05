@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EmailPhlush")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a82f44cd93a47823942a749a4e1e6f09ba4d3d73")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f30b102e9bb38c33edf89ad322f7838e27eadab8")]
 [assembly: System.Reflection.AssemblyProductAttribute("EmailPhlush")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EmailPhlush")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

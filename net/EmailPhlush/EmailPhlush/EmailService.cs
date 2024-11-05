@@ -25,6 +25,40 @@ namespace EmailPhlush
             _client.Authenticate(email, password);
             Console.WriteLine("Connected and authenticated successfully.");
         }
+        
+        public void ScanEmails(DateTime startDate , DateTime endDate )
+        {
+            var senders = new Dictionary<string, int>();
+
+            var allFolder = _client.GetFolder("[Gmail]/All Mail");
+            allFolder.Open(FolderAccess.ReadWrite);
+            
+            var query = SearchQuery.DeliveredAfter(startDate).And(SearchQuery.DeliveredBefore(endDate));
+
+            var uids = allFolder.Search(query);
+            
+            Console.WriteLine($"Found {uids.Count} emails between dates");
+
+            foreach (var uid in uids)
+            {
+                var message = allFolder.GetMessage(uid);
+                var senderAddress = message.From.Mailboxes.FirstOrDefault();
+
+                if (senders.ContainsKey(senderAddress?.Address))
+                {
+                    senders[senderAddress.Address]++;
+                }
+                else
+                {
+                    senders[senderAddress.Address] = 1;
+                }
+            }
+
+            foreach (var sender in senders)
+            {
+                Console.WriteLine($"Found {sender.Key}, with {sender.Value}");
+            }
+        }
 
         public void DeleteEmailsFromSender(string senderEmail)
         {
