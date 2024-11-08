@@ -1,31 +1,20 @@
 namespace EmailPhlush;
 
-public class EmailPhlush
+public class EmailPhlush(string email, string password, string method)
 {
-    private readonly string _email;
-    private readonly string _password;
-    private readonly string _method;
-    private readonly EmailService _emailService;
-
-    public EmailPhlush(string email, string password, string method)
-    {
-        _email = email;
-        _password = password;
-        _method = method;
-        _emailService = new EmailService(AppConfig.ImapServer, AppConfig.Port);
-    }
+    private readonly EmailService _emailService = new(AppConfig.ImapServer, AppConfig.Port);
 
     public void Execute()
     {
         try
         {
-            _emailService.ConnectAndAuthenticate(_email, _password);
+            _emailService.ConnectAndAuthenticate(email, password);
 
-            if (_method.Equals(JobType.Scan.ToString(), StringComparison.OrdinalIgnoreCase))
+            if (method.Equals(JobType.Scan.ToString(), StringComparison.OrdinalIgnoreCase))
             {
-                _emailService.ScanEmails(new DateTime(2024, 11, 3), new DateTime(2024, 11, 5));
+                _emailService.ScanEmails(new DateTime(2024, 11, 3), DateTime.Now);
             }
-            else if (_method.Equals(JobType.Delete.ToString(), StringComparison.OrdinalIgnoreCase))
+            else if (method.Equals(JobType.Delete.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 _emailService.DeleteEmailsFromSender(AppConfig.SenderEmail);
             }

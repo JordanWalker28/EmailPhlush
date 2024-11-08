@@ -12,9 +12,9 @@ namespace EmailPhlush
                 return;
             }
 
-            string email = args[0];
-            string password = args[1];
-            string method = args[2];
+            var email = args[0];
+            var password = args[1];
+            var method = args[2];
 
             var emailJobProcessor = new EmailPhlush(email, password, method);
             emailJobProcessor.Execute();

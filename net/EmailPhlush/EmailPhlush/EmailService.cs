@@ -6,22 +6,13 @@ using Console = System.Console;
 
 namespace EmailPhlush
 {
-    public class EmailService : IDisposable
+    public class EmailService(string imapServer, int port) : IDisposable
     {
-        private readonly string _imapServer;
-        private readonly int _port;
-        private readonly ImapClient _client;
-
-        public EmailService(string imapServer, int port)
-        {
-            _imapServer = imapServer;
-            _port = port;
-            _client = new ImapClient();
-        }
+        private readonly ImapClient _client = new();
 
         public void ConnectAndAuthenticate(string email, string password)
         {
-            _client.Connect(_imapServer, _port, MailKit.Security.SecureSocketOptions.SslOnConnect);
+            _client.Connect(imapServer, port, MailKit.Security.SecureSocketOptions.SslOnConnect);
             _client.Authenticate(email, password);
             Console.WriteLine("Connected and authenticated successfully.");
         }
@@ -44,7 +35,9 @@ namespace EmailPhlush
                 var message = allFolder.GetMessage(uid);
                 var senderAddress = message.From.Mailboxes.FirstOrDefault();
 
-                if (senders.ContainsKey(senderAddress?.Address))
+                if (senderAddress is null) continue;
+                
+                if (senders.ContainsKey(senderAddress.Address))
                 {
                     senders[senderAddress.Address]++;
                 }
@@ -52,6 +45,8 @@ namespace EmailPhlush
                 {
                     senders[senderAddress.Address] = 1;
                 }
+
+
             }
 
             foreach (var sender in senders)
@@ -100,7 +95,7 @@ namespace EmailPhlush
 
         public void Dispose()
         {
-            _client?.Dispose();
+            _client.Dispose();
         }
     }
 }
