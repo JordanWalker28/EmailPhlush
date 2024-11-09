@@ -34,3 +34,5 @@
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/System.Text.Json.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/appsettings.json
+/Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
+/Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll

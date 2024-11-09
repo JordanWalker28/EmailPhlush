@@ -6,13 +6,21 @@ using Console = System.Console;
 
 namespace EmailPhlush
 {
-    public class EmailService(string imapServer, int port) : IDisposable
+    public class EmailService : IEmailService, IDisposable
     {
         private readonly ImapClient _client = new();
+        private readonly string _imapServer;
+        private readonly int _port;
+        
+        public EmailService(string imapServer, int port)
+        {
+            _imapServer = imapServer;
+            _port = port;
+        }
 
         public void ConnectAndAuthenticate(string email, string password)
         {
-            _client.Connect(imapServer, port, MailKit.Security.SecureSocketOptions.SslOnConnect);
+            _client.Connect(_imapServer, _port, MailKit.Security.SecureSocketOptions.SslOnConnect);
             _client.Authenticate(email, password);
             Console.WriteLine("Connected and authenticated successfully.");
         }
@@ -83,6 +91,44 @@ namespace EmailPhlush
             else
             {
                 Console.WriteLine("No messages found from the specified sender.");
+            }
+        }
+        
+        public void DeleteEmailsFromSender(List<string> senderEmails)
+        {
+            var allFolder = _client.GetFolder("[Gmail]/All Mail");
+            allFolder.Open(FolderAccess.ReadWrite);
+
+            foreach (var senderEmail in senderEmails)
+            {
+                allFolder = _client.GetFolder("[Gmail]/All Mail");
+                allFolder.Open(FolderAccess.ReadWrite);
+                
+                var query = SearchQuery.FromContains(senderEmail);
+                var uids = allFolder.Search(query);
+
+                Console.WriteLine($"Total messages from {senderEmail}: {uids.Count}");
+                
+                if (uids.Count > 0)
+                {
+                    var trashFolder = _client.GetFolder(SpecialFolder.Trash);
+        
+                    foreach (var uid in uids)
+                    {
+                        allFolder.CopyTo(uid, trashFolder);
+                        allFolder.AddFlags(uid, MessageFlags.Deleted, true);
+                    }
+
+                    allFolder.Expunge();
+                    trashFolder.Open(FolderAccess.ReadWrite);
+                    trashFolder.Expunge();
+
+                    Console.WriteLine($"Moved {uids.Count} messages to Trash.");
+                }
+                else
+                {
+                    Console.WriteLine("No messages found from the specified sender.");
+                }
             }
         }
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "KhH0CzmSdo8=",
+  "dgSpecHash": "h9r3gAFhPnFfqj49cNWdBQicRAIiWx7Y5MOYqiQ1Smzn9I6rWA04+rcz54NDNCYrH/o3+Hy48dCb1CcXedTRow==",
   "success": true,
   "projectFilePath": "/Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/EmailPhlush.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,8 @@
     "/Users/jordanswalker/.nuget/packages/microsoft.extensions.configuration.abstractions/9.0.0-rc.2.24473.5/microsoft.extensions.configuration.abstractions.9.0.0-rc.2.24473.5.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/microsoft.extensions.configuration.fileextensions/9.0.0-rc.2.24473.5/microsoft.extensions.configuration.fileextensions.9.0.0-rc.2.24473.5.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/microsoft.extensions.configuration.json/9.0.0-rc.2.24473.5/microsoft.extensions.configuration.json.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.dependencyinjection/9.0.0-rc.2.24473.5/microsoft.extensions.dependencyinjection.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.0-rc.2.24473.5/microsoft.extensions.dependencyinjection.abstractions.9.0.0-rc.2.24473.5.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/microsoft.extensions.fileproviders.abstractions/9.0.0-rc.2.24473.5/microsoft.extensions.fileproviders.abstractions.9.0.0-rc.2.24473.5.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/microsoft.extensions.fileproviders.physical/9.0.0-rc.2.24473.5/microsoft.extensions.fileproviders.physical.9.0.0-rc.2.24473.5.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/microsoft.extensions.filesystemglobbing/9.0.0-rc.2.24473.5/microsoft.extensions.filesystemglobbing.9.0.0-rc.2.24473.5.nupkg.sha512",
