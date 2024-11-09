@@ -1,10 +1,9 @@
-using System;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using Console = System.Console;
 
-namespace EmailPhlush
+namespace EmailPhlush.Infrastructure
 {
     public class EmailService : IEmailService, IDisposable
     {

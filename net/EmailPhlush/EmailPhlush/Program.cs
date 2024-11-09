@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmailPhlush.Application;
+using EmailPhlush.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EmailPhlush
@@ -19,7 +20,7 @@ namespace EmailPhlush
             
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<IEmailService>(_ => new EmailService(AppConfig.ImapServer, AppConfig.Port))
-                .AddSingleton<IEmailPhlush>(provider => new EmailPhlush(provider.GetRequiredService<IEmailService>(), email, password, method))
+                .AddSingleton<IEmailPhlush>(provider => new Infrastructure.EmailPhlush(provider.GetRequiredService<IEmailService>(), email, password, method))
                 .BuildServiceProvider();
 
             var emailJobProcessor = serviceProvider.GetRequiredService<IEmailPhlush>();

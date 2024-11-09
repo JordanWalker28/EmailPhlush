@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace EmailPhlush
+namespace EmailPhlush.Application
 {
     public static class AppConfig
     {

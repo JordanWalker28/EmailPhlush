@@ -1,4 +1,4 @@
-namespace EmailPhlush;
+namespace EmailPhlush.Infrastructure;
 
 public interface IEmailService
 {
@@ -6,6 +6,5 @@ public interface IEmailService
     void ScanEmails(DateTime from, DateTime to);
     void DeleteEmailsFromSender(string senderEmail);
     void DeleteEmailsFromSender(List<string> senderEmails);
-
     void Disconnect();
 }

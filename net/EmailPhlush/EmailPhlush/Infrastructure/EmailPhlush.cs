@@ -1,4 +1,4 @@
-namespace EmailPhlush;
+namespace EmailPhlush.Infrastructure;
 
 public class EmailPhlush : IEmailPhlush
 {
