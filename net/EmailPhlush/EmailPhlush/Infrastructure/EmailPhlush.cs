@@ -1,45 +1,33 @@
 namespace EmailPhlush.Infrastructure;
 
-public class EmailPhlush : IEmailPhlush
+public class EmailPhlush(IEmailService emailService, string email, string password, string methodOfUse)
+    : IEmailPhlush
 {
-    private readonly IEmailService _emailService;
-    private readonly string _email;
-    private readonly string _password;
-    private readonly string _method;
-
-    public EmailPhlush(IEmailService emailService, string email, string password, string method)
-    {
-        _emailService = emailService;
-        _email = email;
-        _password = password;
-        _method = method;
-    }
-
     public void Execute()
     {
         try
         {
-            _emailService.ConnectAndAuthenticate(_email, _password);
+            emailService.ConnectAndAuthenticate(email, password);
 
-            if (_method.Equals(JobType.Scan.ToString(), StringComparison.OrdinalIgnoreCase))
+            switch (methodOfUse.ToLower())
             {
-                _emailService.ScanEmails(new DateTime(2024, 11, 3), DateTime.Now);
-            }
-            else if (_method.Equals(JobType.Delete.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                //_emailService.DeleteEmailsFromSender(AppConfig.SenderEmail);
-                var emailList = new List<string>()
-                {
-                    "uk@marketing.axs.com",
-                    "newsletters-noreply@linkedin.com",
-                    "no-reply@harringtonstarr.com"
-                };
-                
-                _emailService.DeleteEmailsFromSender(emailList);
-            }
-            else
-            {
-                Console.WriteLine("Job Type Not Recognised");
+                case var method when method.Equals(JobType.Scan.ToString().ToLower()):
+                    emailService.ScanEmails(new DateTime(2024, 11, 3), DateTime.Now);
+                    break;
+    
+                case var method when method.Equals(JobType.Delete.ToString().ToLower()):
+                    var emailList = new List<string>()
+                    {
+                        "uk@marketing.axs.com",
+                        "newsletters-noreply@linkedin.com",
+                        "no-reply@harringtonstarr.com"
+                    };
+                    emailService.DeleteEmailsFromSender(emailList);
+                    break;
+
+                default:
+                    Console.WriteLine("Job Type Not Recognised");
+                    break;
             }
         }
         catch (Exception ex)
@@ -48,7 +36,7 @@ public class EmailPhlush : IEmailPhlush
         }
         finally
         {
-            _emailService.Disconnect();
+            emailService.Disconnect();
         }
     }
 }

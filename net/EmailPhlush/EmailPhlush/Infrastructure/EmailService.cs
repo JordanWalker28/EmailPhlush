@@ -5,26 +5,18 @@ using Console = System.Console;
 
 namespace EmailPhlush.Infrastructure
 {
-    public class EmailService : IEmailService, IDisposable
+    public class EmailService(string imapServer, int port) : IEmailService, IDisposable
     {
         private readonly ImapClient _client = new();
-        private readonly string _imapServer;
-        private readonly int _port;
-        
-        public EmailService(string imapServer, int port)
-        {
-            _imapServer = imapServer;
-            _port = port;
-        }
 
         public void ConnectAndAuthenticate(string email, string password)
         {
-            _client.Connect(_imapServer, _port, MailKit.Security.SecureSocketOptions.SslOnConnect);
+            _client.Connect(imapServer, port, MailKit.Security.SecureSocketOptions.SslOnConnect);
             _client.Authenticate(email, password);
             Console.WriteLine("Connected and authenticated successfully.");
         }
         
-        public void ScanEmails(DateTime startDate , DateTime endDate )
+        public void ScanEmails(DateTime startDate, DateTime endDate )
         {
             var senders = new Dictionary<string, int>();
 
@@ -44,16 +36,10 @@ namespace EmailPhlush.Infrastructure
 
                 if (senderAddress is null) continue;
                 
-                if (senders.ContainsKey(senderAddress.Address))
+                if (!senders.TryAdd(senderAddress.Address, 1))
                 {
                     senders[senderAddress.Address]++;
                 }
-                else
-                {
-                    senders[senderAddress.Address] = 1;
-                }
-
-
             }
 
             foreach (var sender in senders)
