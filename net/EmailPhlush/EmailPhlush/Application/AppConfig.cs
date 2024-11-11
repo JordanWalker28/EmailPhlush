@@ -6,7 +6,6 @@ namespace EmailPhlush.Application
     {
         public static readonly string ImapServer;
         public static readonly int Port;
-        public static readonly string SenderEmail;
 
         static AppConfig()
         {
@@ -17,7 +16,6 @@ namespace EmailPhlush.Application
 
             ImapServer = configuration["EmailSettings:ImapServer"];
             Port = int.Parse(configuration["EmailSettings:Port"]);
-            SenderEmail = configuration["EmailSettings:SenderEmail"];
         }
     }
 }
