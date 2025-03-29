@@ -17,7 +17,6 @@
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/Microsoft.Extensions.FileSystemGlobbing.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/Microsoft.Extensions.Primitives.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/MimeKit.dll
-/Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/System.Formats.Asn1.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/System.IO.Pipelines.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/System.Security.Cryptography.Pkcs.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/bin/Debug/net8.0/System.Text.Encodings.Web.dll

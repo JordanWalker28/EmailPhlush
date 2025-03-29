@@ -1,7 +1,9 @@
+using EmailPhlush.Infrastructure;
 using Moq;
 using Xunit;
-using EmailPhlush.Infrastructure;
 using Assert = Xunit.Assert;
+
+namespace tests.Infrastructure;
 
 public class EmailPhlushTests
 {
@@ -17,7 +19,7 @@ public class EmailPhlushTests
     [Fact]
     public void Execute_Should_ConnectAndAuthenticate()
     {
-        var emailPhlush = new EmailPhlush.Infrastructure.EmailPhlush(_mockEmailService.Object, _email, _password, "scan");
+        var emailPhlush = new EmailPhlush(_mockEmailService.Object, _email, _password, "scan");
 
         emailPhlush.Execute();
         
@@ -37,7 +39,7 @@ public class EmailPhlushTests
     [Fact]
     public void Execute_Should_NotCallAnyMethod_When_JobTypeIsUnrecognized()
     {
-        var emailPhlush = new EmailPhlush.Infrastructure.EmailPhlush(_mockEmailService.Object, _email, _password, "unknown");
+        var emailPhlush = new EmailPhlush(_mockEmailService.Object, _email, _password, "unknown");
 
         emailPhlush.Execute();
 
@@ -49,9 +51,9 @@ public class EmailPhlushTests
     public void Execute_Should_HandleException_And_NotThrow()
     {
         _mockEmailService.Setup(es => es.ConnectAndAuthenticate(_email, _password))
-                         .Throws(new InvalidOperationException("Connection failed"));
+            .Throws(new InvalidOperationException("Connection failed"));
 
-        var emailPhlush = new EmailPhlush.Infrastructure.EmailPhlush(_mockEmailService.Object, _email, _password, "scan");
+        var emailPhlush = new EmailPhlush(_mockEmailService.Object, _email, _password, "scan");
 
         var exception = Record.Exception(() => emailPhlush.Execute());
         Assert.Null(exception);
@@ -60,10 +62,11 @@ public class EmailPhlushTests
     [Fact]
     public void Execute_Should_Disconnect_EmailService_AfterExecution()
     {
-        var emailPhlush = new EmailPhlush.Infrastructure.EmailPhlush(_mockEmailService.Object, _email, _password, "scan");
+        var emailPhlush = new EmailPhlush(_mockEmailService.Object, _email, _password, "scan");
 
         emailPhlush.Execute();
 
         _mockEmailService.Verify(es => es.Disconnect(), Times.Once);
     }
+    
 }

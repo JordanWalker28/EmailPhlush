@@ -15,14 +15,9 @@ public class EmailPhlush(IEmailService emailService, string email, string passwo
                     emailService.ScanEmails(new DateTime(2024, 11, 3), DateTime.Now);
                     break;
     
-                case var method when method.Equals(JobType.Delete.ToString().ToLower()):
-                    var emailList = new List<string>()
-                    {
-                        "uk@marketing.axs.com",
-                        "newsletters-noreply@linkedin.com",
-                        "no-reply@harringtonstarr.com"
-                    };
-                    emailService.DeleteEmailsFromSender(emailList);
+                case var method when method.Equals(JobType.Delete.ToString().ToLower()) :
+
+                    emailService.DeleteEmailsFromSender("contact@mailer.humblebundle.com>");
                     break;
 
                 default:

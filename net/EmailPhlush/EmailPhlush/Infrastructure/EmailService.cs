@@ -54,29 +54,46 @@ namespace EmailPhlush.Infrastructure
             allFolder.Open(FolderAccess.ReadWrite);
             var query = SearchQuery.FromContains(senderEmail);
             var uids = allFolder.Search(query);
+            var trashFolder = _client.GetFolder(SpecialFolder.Trash);
+
 
             Console.WriteLine($"Total messages from {senderEmail}: {uids.Count}");
-
+            
             if (uids.Count > 0)
             {
-                var trashFolder = _client.GetFolder(SpecialFolder.Trash);
+                var count = 0;
+                Console.WriteLine($"Moving {uids.Count} emails from {senderEmail} to the Trash");
         
                 foreach (var uid in uids)
                 {
                     allFolder.CopyTo(uid, trashFolder);
-                    allFolder.AddFlags(uid, MessageFlags.Deleted, true);
+                    Console.WriteLine($"Moving {count}/{uids.Count} ");
+                    Console.WriteLine($"Moved {uid}");
+                    count++;
                 }
-
+                
                 allFolder.Expunge();
-                trashFolder.Open(FolderAccess.ReadWrite);
-                trashFolder.Expunge();
-
                 Console.WriteLine($"Moved {uids.Count} messages to Trash.");
             }
             else
             {
                 Console.WriteLine("No messages found from the specified sender.");
             }
+            
+            
+            trashFolder.Open(FolderAccess.ReadWrite);
+            var uidsInTrash = trashFolder.Search(query);
+            Console.WriteLine($"Total messages from {senderEmail}: {uidsInTrash.Count}");
+            var countTrash = 0;
+            foreach (var uid in uidsInTrash)
+            {
+                trashFolder.Store (uid, new StoreFlagsRequest (StoreAction.Add, MessageFlags.Deleted) { Silent = true });
+                Console.WriteLine($"Deleted {countTrash}/{uidsInTrash.Count} ");
+                Console.WriteLine($"Deleteed {uid}");
+                countTrash++;
+            }
+
+            trashFolder.Expunge();
         }
         
         public void DeleteEmailsFromSender(List<string> senderEmails)

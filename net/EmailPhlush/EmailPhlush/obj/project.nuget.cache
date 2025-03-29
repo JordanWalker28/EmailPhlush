@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Uej1n/9F2wE=",
+  "dgSpecHash": "tUjRzkrTxDY=",
   "success": true,
   "projectFilePath": "/Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush/EmailPhlush.csproj",
   "expectedPackageFiles": [
@@ -21,7 +21,10 @@
     "/Users/jordanswalker/.nuget/packages/system.io.pipelines/9.0.0-rc.2.24473.5/system.io.pipelines.9.0.0-rc.2.24473.5.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/system.security.cryptography.pkcs/8.0.0/system.security.cryptography.pkcs.8.0.0.nupkg.sha512",
     "/Users/jordanswalker/.nuget/packages/system.text.encodings.web/9.0.0-rc.2.24473.5/system.text.encodings.web.9.0.0-rc.2.24473.5.nupkg.sha512",
-    "/Users/jordanswalker/.nuget/packages/system.text.json/9.0.0-rc.2.24473.5/system.text.json.9.0.0-rc.2.24473.5.nupkg.sha512"
+    "/Users/jordanswalker/.nuget/packages/system.text.json/9.0.0-rc.2.24473.5/system.text.json.9.0.0-rc.2.24473.5.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.netcore.app.ref/8.0.11/microsoft.netcore.app.ref.8.0.11.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/microsoft.aspnetcore.app.ref.8.0.11.nupkg.sha512",
+    "/Users/jordanswalker/.nuget/packages/microsoft.netcore.app.host.osx-x64/8.0.11/microsoft.netcore.app.host.osx-x64.8.0.11.nupkg.sha512"
   ],
   "logs": []
 }

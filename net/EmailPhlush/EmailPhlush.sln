@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailPhlush", "EmailPhlush\EmailPhlush.csproj", "{EE4B1B37-0164-4098-A782-2D698B4346AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailPhlush.Tests", "EmailPhlush.Tests\EmailPhlush.Tests.csproj", "{69733B45-E823-439D-960A-A1CC6D458064}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE4B1B37-0164-4098-A782-2D698B4346AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE4B1B37-0164-4098-A782-2D698B4346AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE4B1B37-0164-4098-A782-2D698B4346AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE4B1B37-0164-4098-A782-2D698B4346AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69733B45-E823-439D-960A-A1CC6D458064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69733B45-E823-439D-960A-A1CC6D458064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69733B45-E823-439D-960A-A1CC6D458064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69733B45-E823-439D-960A-A1CC6D458064}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
