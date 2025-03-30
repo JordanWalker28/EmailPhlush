@@ -61,18 +61,8 @@ namespace EmailPhlush.Infrastructure
             
             if (uids.Count > 0)
             {
-                var count = 0;
                 Console.WriteLine($"Moving {uids.Count} emails from {senderEmail} to the Trash");
-        
-                foreach (var uid in uids)
-                {
-                    allFolder.CopyTo(uid, trashFolder);
-                    Console.WriteLine($"Moving {count}/{uids.Count} ");
-                    Console.WriteLine($"Moved {uid}");
-                    count++;
-                }
-                
-                allFolder.Expunge();
+                allFolder.CopyTo(uids, trashFolder);
                 Console.WriteLine($"Moved {uids.Count} messages to Trash.");
             }
             else
@@ -84,14 +74,7 @@ namespace EmailPhlush.Infrastructure
             trashFolder.Open(FolderAccess.ReadWrite);
             var uidsInTrash = trashFolder.Search(query);
             Console.WriteLine($"Total messages from {senderEmail}: {uidsInTrash.Count}");
-            var countTrash = 0;
-            foreach (var uid in uidsInTrash)
-            {
-                trashFolder.Store (uid, new StoreFlagsRequest (StoreAction.Add, MessageFlags.Deleted) { Silent = true });
-                Console.WriteLine($"Deleted {countTrash}/{uidsInTrash.Count} ");
-                Console.WriteLine($"Deleteed {uid}");
-                countTrash++;
-            }
+            trashFolder.Store (uidsInTrash, new StoreFlagsRequest (StoreAction.Add, MessageFlags.Deleted) { Silent = true });
 
             trashFolder.Expunge();
         }
@@ -114,15 +97,9 @@ namespace EmailPhlush.Infrastructure
                 if (uids.Count > 0)
                 {
                     var trashFolder = _client.GetFolder(SpecialFolder.Trash);
-        
-                    foreach (var uid in uids)
-                    {
-                        allFolder.CopyTo(uid, trashFolder);
-                        allFolder.AddFlags(uid, MessageFlags.Deleted, true);
-                    }
-
-                    allFolder.Expunge();
-                    trashFolder.Open(FolderAccess.ReadWrite);
+                    
+                    allFolder.CopyToAsync(uids, trashFolder);
+                    
                     trashFolder.Expunge();
 
                     Console.WriteLine($"Moved {uids.Count} messages to Trash.");

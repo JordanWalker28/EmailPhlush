@@ -14,10 +14,11 @@ public class EmailPhlush(IEmailService emailService, string email, string passwo
                 case var method when method.Equals(JobType.Scan.ToString().ToLower()):
                     emailService.ScanEmails(new DateTime(2024, 11, 3), DateTime.Now);
                     break;
-    
-                case var method when method.Equals(JobType.Delete.ToString().ToLower()) :
-
-                    emailService.DeleteEmailsFromSender("contact@mailer.humblebundle.com>");
+                case var method when method.Equals(JobType.DeleteSingle.ToString().ToLower()):
+                    emailService.DeleteEmailsFromSender("jobalerts-noreply@linkedin.com");
+                    break;
+                case var method when method.Equals(JobType.DeleteAll.ToString().ToLower()):
+                    emailService.DeleteEmailsFromSender("contact@mailer.humblebundle.com");
                     break;
 
                 default:

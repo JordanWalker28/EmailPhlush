@@ -44,7 +44,6 @@
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush.Tests/bin/Debug/net8.0/Microsoft.VisualStudio.TestPlatform.TestFramework.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush.Tests/bin/Debug/net8.0/Newtonsoft.Json.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush.Tests/bin/Debug/net8.0/System.Diagnostics.EventLog.dll
-/Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush.Tests/bin/Debug/net8.0/System.Formats.Asn1.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush.Tests/bin/Debug/net8.0/System.IO.Pipelines.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush.Tests/bin/Debug/net8.0/System.Security.Cryptography.Pkcs.dll
 /Users/jordanswalker/Documents/EmailPhlush/net/EmailPhlush/EmailPhlush.Tests/bin/Debug/net8.0/System.Text.Encodings.Web.dll
