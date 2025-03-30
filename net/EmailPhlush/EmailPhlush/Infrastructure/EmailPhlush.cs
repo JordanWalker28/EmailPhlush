@@ -3,8 +3,20 @@ namespace EmailPhlush.Infrastructure;
 public class EmailPhlush(IEmailService emailService, string email, string password, string methodOfUse)
     : IEmailPhlush
 {
+
+
+    public class ServiceQuery()
+    {
+        public string emailSenderToRemove = "em@mail.totallymoney.com";
+        public DateTime dateTimeFrom = new(2024, 11, 3);
+        public DateTime dateTimeTo =  DateTime.Now;
+        public List<string> emailSendersToRemove = ["contact@mailer.humblebundle.com"];
+        
+    }
+    
     public void Execute()
     {
+        var serviceQuery = new ServiceQuery();
         try
         {
             emailService.ConnectAndAuthenticate(email, password);
@@ -12,13 +24,13 @@ public class EmailPhlush(IEmailService emailService, string email, string passwo
             switch (methodOfUse.ToLower())
             {
                 case var method when method.Equals(JobType.Scan.ToString().ToLower()):
-                    emailService.ScanEmails(new DateTime(2024, 11, 3), DateTime.Now);
+                    emailService.ScanEmails(serviceQuery.dateTimeFrom, serviceQuery.dateTimeTo);
                     break;
                 case var method when method.Equals(JobType.DeleteSingle.ToString().ToLower()):
-                    emailService.DeleteEmailsFromSender("jobalerts-noreply@linkedin.com");
+                    emailService.DeleteEmailsFromSender(serviceQuery.emailSenderToRemove);
                     break;
                 case var method when method.Equals(JobType.DeleteAll.ToString().ToLower()):
-                    emailService.DeleteEmailsFromSender("contact@mailer.humblebundle.com");
+                    emailService.DeleteEmailsFromSender(serviceQuery.emailSendersToRemove);
                     break;
 
                 default:
