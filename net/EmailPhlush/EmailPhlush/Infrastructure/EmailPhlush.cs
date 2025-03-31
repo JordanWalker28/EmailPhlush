@@ -34,17 +34,22 @@ public class EmailPhlush(IEmailService emailService, string email, string passwo
                     break;
 
                 default:
-                    Console.WriteLine("Job Type Not Recognised");
+                    CreateUserMessage("Job Type Not Recognised");
                     break;
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
+            CreateUserMessage($"An error occurred: {ex.Message}");
         }
         finally
         {
             emailService.Disconnect();
         }
+    }
+
+    private static void CreateUserMessage(string message)
+    {
+        Console.WriteLine(message);
     }
 }
