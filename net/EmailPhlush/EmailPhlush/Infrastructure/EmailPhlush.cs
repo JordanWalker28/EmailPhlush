@@ -1,6 +1,6 @@
 namespace EmailPhlush.Infrastructure;
 
-public class EmailPhlush(IEmailService emailService, string email, string password, string methodOfUse)
+public class EmailPhlush(IWriter writer, IEmailService emailService, string email, string password, string methodOfUse)
     : IEmailPhlush
 {
 
@@ -34,13 +34,13 @@ public class EmailPhlush(IEmailService emailService, string email, string passwo
                     break;
 
                 default:
-                    CreateUserMessage("Job Type Not Recognised");
+                    writer.Write("Job Type Not Recognised");
                     break;
             }
         }
         catch (Exception ex)
         {
-            CreateUserMessage($"An error occurred: {ex.Message}");
+            writer.Write($"An error occurred: {ex.Message}");
         }
         finally
         {

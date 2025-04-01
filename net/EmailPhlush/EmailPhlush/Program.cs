@@ -19,8 +19,9 @@ namespace EmailPhlush
             var method = args[2];
             
             var serviceProvider = new ServiceCollection()
+                .AddSingleton<IWriter, Writer>()
                 .AddSingleton<IEmailService>(_ => new EmailService(AppConfig.ImapServer, AppConfig.Port))
-                .AddSingleton<IEmailPhlush>(provider => new Infrastructure.EmailPhlush(provider.GetRequiredService<IEmailService>(), email, password, method))
+                .AddSingleton<IEmailPhlush>(provider => new Infrastructure.EmailPhlush(provider.GetRequiredService<IWriter>(), provider.GetRequiredService<IEmailService>(), email, password, method))
                 .BuildServiceProvider();
 
             var emailJobProcessor = serviceProvider.GetRequiredService<IEmailPhlush>();
