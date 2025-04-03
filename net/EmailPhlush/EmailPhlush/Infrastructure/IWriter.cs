@@ -2,5 +2,5 @@ namespace EmailPhlush.Infrastructure;
 
 public interface IWriter
 {
-    public void Write(string conteent);
+    public void Write(string content);
 }

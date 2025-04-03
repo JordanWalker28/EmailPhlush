@@ -8,7 +8,7 @@ public class EmailPhlush(IWriter writer, IEmailService emailService, string emai
     public class ServiceQuery()
     {
         public string emailSenderToRemove = "email@email.playstation.com";
-        public DateTime dateTimeFrom = new(2024, 11, 3);
+        public DateTime dateTimeFrom = new(2025, 03, 30);
         public DateTime dateTimeTo =  DateTime.Now;
         public List<string> emailSendersToRemove = ["contact@mailer.humblebundle.com"];
         
