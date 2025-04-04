@@ -1,6 +1,6 @@
 namespace EmailPhlush.Infrastructure;
 
-public class EmailPhlush(IWriter writer, IEmailService emailService, string email, string password, string methodOfUse)
+public class EmailPhlush(IWriter writer, IEmailService emailService, IEmailConfig emailConfig)
     : IEmailPhlush
 {
 
@@ -11,7 +11,6 @@ public class EmailPhlush(IWriter writer, IEmailService emailService, string emai
         public DateTime dateTimeFrom = new(2025, 03, 30);
         public DateTime dateTimeTo =  DateTime.Now;
         public List<string> emailSendersToRemove = ["contact@mailer.humblebundle.com"];
-        
     }
     
     public void Execute()
@@ -19,17 +18,17 @@ public class EmailPhlush(IWriter writer, IEmailService emailService, string emai
         var serviceQuery = new ServiceQuery();
         try
         {
-            emailService.ConnectAndAuthenticate(email, password);
+            emailService.ConnectAndAuthenticate(emailConfig);
 
-            switch (methodOfUse.ToLower())
+            switch (emailConfig.Method)
             {
-                case var method when method.Equals(JobType.Scan.ToString().ToLower()):
+                case JobType.Scan:
                     emailService.ScanEmails(serviceQuery.dateTimeFrom, serviceQuery.dateTimeTo);
                     break;
-                case var method when method.Equals(JobType.DeleteSingle.ToString().ToLower()):
+                case JobType.DeleteSingle:
                     emailService.DeleteEmailsFromSender(serviceQuery.emailSenderToRemove);
                     break;
-                case var method when method.Equals(JobType.DeleteAll.ToString().ToLower()):
+                case JobType.DeleteAll:
                     emailService.DeleteEmailsFromSender(serviceQuery.emailSendersToRemove);
                     break;
 

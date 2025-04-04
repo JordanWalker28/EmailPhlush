@@ -14,17 +14,15 @@ namespace EmailPhlush
                 return;
             }
 
-            var email = args[0];
-            var password = args[1];
-            var method = args[2];
+            IEmailConfig emailConfig = new EmailConfig(email:args[0], password:args[1], method:args[2]);
 
-            var serviceProvider = ConfigureServices(email, password, method);
+            var serviceProvider = ConfigureServices(emailConfig);
 
             var emailJobProcessor = serviceProvider.GetRequiredService<IEmailPhlush>();
             emailJobProcessor.Execute();
         }
 
-        private static IServiceProvider ConfigureServices(string email, string password, string method)
+        private static IServiceProvider ConfigureServices(IEmailConfig emailConfig)
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton<IWriter, Writer>();
@@ -34,7 +32,7 @@ namespace EmailPhlush
                 new Infrastructure.EmailPhlush(
                     provider.GetRequiredService<IWriter>(),
                     provider.GetRequiredService<IEmailService>(),
-                    email, password, method));
+                    emailConfig));
 
             return serviceCollection.BuildServiceProvider();
         }

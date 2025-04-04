@@ -1,8 +1,8 @@
 namespace EmailPhlush.Infrastructure;
 
-internal enum JobType
+public enum JobType
 {
-    Scan,
+    Scan ,
     DeleteAll,
     DeleteSingle
 }

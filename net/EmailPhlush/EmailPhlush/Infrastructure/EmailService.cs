@@ -9,10 +9,10 @@ namespace EmailPhlush.Infrastructure
     {
         private readonly ImapClient _client = new();
 
-        public void ConnectAndAuthenticate(string email, string password)
+        public void ConnectAndAuthenticate(IEmailConfig emailConfig)
         {
             _client.Connect(imapServer, port, MailKit.Security.SecureSocketOptions.SslOnConnect);
-            _client.Authenticate(email, password);
+            _client.Authenticate(emailConfig.Email, emailConfig.Password);
             Console.WriteLine("Connected and authenticated successfully.");
         }
         
