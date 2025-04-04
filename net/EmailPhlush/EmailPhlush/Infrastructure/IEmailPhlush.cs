@@ -2,5 +2,5 @@ namespace EmailPhlush.Infrastructure;
 
 public interface IEmailPhlush
 {
-    void Execute();
+    void Execute(ServiceQuery serviceQuery);
 }

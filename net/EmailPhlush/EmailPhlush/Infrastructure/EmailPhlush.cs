@@ -3,19 +3,9 @@ namespace EmailPhlush.Infrastructure;
 public class EmailPhlush(IWriter writer, IEmailService emailService, IEmailConfig emailConfig)
     : IEmailPhlush
 {
-
-
-    public class ServiceQuery()
-    {
-        public string emailSenderToRemove = "email@email.playstation.com";
-        public DateTime dateTimeFrom = new(2025, 03, 30);
-        public DateTime dateTimeTo =  DateTime.Now;
-        public List<string> emailSendersToRemove = ["contact@mailer.humblebundle.com"];
-    }
     
-    public void Execute()
+    public void Execute(ServiceQuery serviceQuery)
     {
-        var serviceQuery = new ServiceQuery();
         try
         {
             emailService.ConnectAndAuthenticate(emailConfig);

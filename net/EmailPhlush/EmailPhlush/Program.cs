@@ -19,7 +19,8 @@ namespace EmailPhlush
             var serviceProvider = ConfigureServices(emailConfig);
 
             var emailJobProcessor = serviceProvider.GetRequiredService<IEmailPhlush>();
-            emailJobProcessor.Execute();
+            var serviceQuery = new ServiceQuery();
+            emailJobProcessor.Execute(serviceQuery);
         }
 
         private static IServiceProvider ConfigureServices(IEmailConfig emailConfig)
