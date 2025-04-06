@@ -13,13 +13,13 @@ public class EmailPhlush(IWriter writer, IEmailService emailService, IEmailConfi
             switch (emailConfig.Method)
             {
                 case JobType.Scan:
-                    emailService.ScanEmails(serviceQuery.dateTimeFrom, serviceQuery.dateTimeTo);
+                    emailService.ScanEmails(serviceQuery.DateTimeFrom, serviceQuery.DateTimeTo);
                     break;
                 case JobType.DeleteSingle:
-                    emailService.DeleteEmailsFromSender(serviceQuery.emailSenderToRemove);
+                    emailService.DeleteEmailsFromSender(serviceQuery.EmailSenderToRemove);
                     break;
                 case JobType.DeleteAll:
-                    emailService.DeleteEmailsFromSender(serviceQuery.emailSendersToRemove);
+                    emailService.DeleteEmailsFromSender(serviceQuery.EmailSendersToRemove);
                     break;
 
                 default:

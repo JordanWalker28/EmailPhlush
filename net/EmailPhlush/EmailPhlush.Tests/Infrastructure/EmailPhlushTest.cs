@@ -60,7 +60,7 @@ public class EmailPhlushTests
         _emailConfig.Setup(x => x.Method).Returns(JobType.DeleteSingle);
         var serviceQuery = new ServiceQuery
         {
-            emailSenderToRemove = "sender@example.com" 
+            EmailSenderToRemove = "sender@example.com" 
         };
         
         var emailPhlush = new EmailPhlush.Infrastructure.EmailPhlush(_writerService.Object, _mockEmailService.Object, _emailConfig.Object);
@@ -76,7 +76,7 @@ public class EmailPhlushTests
         _emailConfig.Setup(x => x.Method).Returns(JobType.DeleteAll);
         var serviceQuery = new ServiceQuery
         {
-            emailSendersToRemove = ["sender1@example.com", "sender2@example.com"]
+            EmailSendersToRemove = ["sender1@example.com", "sender2@example.com"]
         };
         
         var emailPhlush = new EmailPhlush.Infrastructure.EmailPhlush(_writerService.Object, _mockEmailService.Object, _emailConfig.Object);
